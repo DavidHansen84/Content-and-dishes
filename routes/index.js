@@ -8,6 +8,7 @@ let contentCollection = db.collection('content')
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 
+// GET content
 router.get("/json", async (req, res, next) => {
   let content = await contentCollection.get("content")
 
@@ -25,6 +26,7 @@ router.get("/json", async (req, res, next) => {
   }
 });
 
+// POST content or replace content
 router.post("/json", async (req, res, next) => {
   const { content } = req.body;
   if (content == null) {
@@ -40,6 +42,7 @@ router.post("/json", async (req, res, next) => {
   });
 });
 
+// GET all dishes
 router.get("/dishes", async (req, res, next) => {
   let my_file = await s3.getObject({
     Bucket: "cyclic-pear-wandering-sturgeon-eu-west-2",
@@ -59,6 +62,7 @@ router.get("/dishes", async (req, res, next) => {
 }
 });
 
+// POST and add dishes, if exist already updates the country
 router.post("/dishes", async (req, res, next) => {
   try {
     let my_file = await s3.getObject({
@@ -108,6 +112,7 @@ router.post("/dishes", async (req, res, next) => {
   }
 });
 
+// GET the exact dish
 router.get("/dishes/:dishKey", async (req, res, next) => {
   try {
     const dish = req.params.dishKey;
